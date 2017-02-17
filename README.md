@@ -1,5 +1,5 @@
 ##BACKGROUND##
-This project is for COMP 433: Distributed Systems at Loyola.  It is a simple REST service representing an online bank api.
+This project is for COMP 439: Distributed Systems at Loyola.  It is a simple REST service representing an online bank api.
 
 There are two main objects in this system: customer and account.
 
