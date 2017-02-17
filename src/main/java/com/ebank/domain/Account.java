@@ -8,15 +8,17 @@ import java.math.BigDecimal;
 @Data
 public class Account {
 
-    private final long id;
+    private final Integer id;
 
     @NotNull
-    private String type;
+    private final String type;
 
     @NotNull
-    private BigDecimal balance;
+    private final BigDecimal balance;
 
     @NotNull
-    private long customerId;
+    private final Boolean active;
 
+    @NotNull
+    private final Integer customerId;
 }

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class Customer {
 
-    private final long id;
+    private final Integer id;
 
     @NotNull
     private final String firstName;
@@ -15,4 +15,9 @@ public class Customer {
     @NotNull
     private final String lastName;
 
+    @NotNull
+    private final String phone;
+
+    @NotNull
+    private final Boolean active;
 }

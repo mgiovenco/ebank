@@ -1,11 +1,10 @@
+To run project:
 gradle clean build && java -jar build/libs/ebank-0.0.1-SNAPSHOT.jar
 
-TODO:
-Create converter class for letting controllers know what type of object to return
-Create swagger api info for endpoints
-Create service, repository, and database integration (AWS db most likely)
+To test project:
+POST http://localhost:8080/test
 
-
-
-http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
-
+To connect to database (hosted on AWS):
+mysql -h ebank.c5qycvuwlvdp.us-east-1.rds.amazonaws.com -P 3306 -u mgiovenco -p mgiovenco
+use ebank;
+show tables;
