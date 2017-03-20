@@ -3,6 +3,7 @@ package com.ebank.web;
 import com.ebank.domain.Customer;
 import com.ebank.exception.ResourceNotFoundException;
 import com.ebank.service.CustomerService;
+import com.ebank.util.ServerErrorGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -22,14 +22,18 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final ServerErrorGenerator serverErrorGenerator;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, ServerErrorGenerator serverErrorGenerator) {
         this.customerService = customerService;
+        this.serverErrorGenerator = serverErrorGenerator;
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Customer getCustomer(@PathVariable(value = "id") int id) {
+    public Customer getCustomer(@PathVariable(value = "id") int id) throws Exception {
+        serverErrorGenerator.generateRandomServerError();
+
         Customer customer = customerService.getCustomer(id);
 
         if (customer == null) {
@@ -40,7 +44,9 @@ public class CustomerController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() throws Exception {
+        serverErrorGenerator.generateRandomServerError();
+
         List<Customer> customers = customerService.getAllCustomers();
 
         if (customers == null) {
@@ -53,12 +59,16 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     public Customer createCustomer(@Valid @RequestBody Customer customer) throws Exception {
+        serverErrorGenerator.generateRandomServerError();
+
         return customerService.addCustomer(customer);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public void updateCustomer(@PathVariable(value = "id") int id, @Valid @RequestBody Customer customer) {
+    public void updateCustomer(@PathVariable(value = "id") int id, @Valid @RequestBody Customer customer) throws Exception {
+        serverErrorGenerator.generateRandomServerError();
+
         Customer currentCustomer = customerService.getCustomer(id);
 
         if (currentCustomer == null) {
@@ -70,7 +80,9 @@ public class CustomerController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public void deleteCustomer(@PathVariable(value = "id") int id) throws SQLException {
+    public void deleteCustomer(@PathVariable(value = "id") int id) throws Exception {
+        serverErrorGenerator.generateRandomServerError();
+
         Customer customer = customerService.getCustomer(id);
 
         if (customer == null) {

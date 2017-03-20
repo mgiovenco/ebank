@@ -6,6 +6,7 @@ import com.ebank.exception.ResourceNotFoundException;
 import com.ebank.exception.ValidationException;
 import com.ebank.service.AccountService;
 import com.ebank.service.CustomerService;
+import com.ebank.util.ServerErrorGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,15 +28,19 @@ public class AccountController {
 
     private final AccountService accountService;
     private final CustomerService customerService;
+    private final ServerErrorGenerator serverErrorGenerator;
 
     @Autowired
-    public AccountController(AccountService accountService, CustomerService customerService) {
+    public AccountController(AccountService accountService, CustomerService customerService, ServerErrorGenerator serverErrorGenerator) {
         this.accountService = accountService;
         this.customerService = customerService;
+        this.serverErrorGenerator = serverErrorGenerator;
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Account getAccount(@PathVariable(value = "id") int id) {
+        serverErrorGenerator.generateRandomServerError();
+
         Account account = null;
         try {
             account = accountService.getAccount(id);
@@ -51,6 +56,8 @@ public class AccountController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Account> getAllAccounts() {
+        serverErrorGenerator.generateRandomServerError();
+
         List<Account> accounts = new ArrayList<>();
         accounts = accountService.getAllAccounts();
         if (accounts == null) {
@@ -63,6 +70,8 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
     public Account createAccount(@Valid @RequestBody Account account) throws Exception {
+        serverErrorGenerator.generateRandomServerError();
+
         int customerId = account.getCustomerId();
         Customer customer = customerService.getCustomer(customerId);
 
@@ -76,6 +85,8 @@ public class AccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public void updateAccount(@PathVariable(value = "id") int id, @Valid @RequestBody Account account) throws SQLException {
+        serverErrorGenerator.generateRandomServerError();
+
         Account currentAccount = accountService.getAccount(id);
         if (currentAccount == null) {
             throw new ResourceNotFoundException("No account found with id=" + id);
@@ -98,6 +109,8 @@ public class AccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void deleteAccount(@PathVariable(value = "id") int id) throws SQLException {
+        serverErrorGenerator.generateRandomServerError();
+
         Account currentAccount = accountService.getAccount(id);
         if (currentAccount == null) {
             throw new ResourceNotFoundException("No account found with id=" + id);

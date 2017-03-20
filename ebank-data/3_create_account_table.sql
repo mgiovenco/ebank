@@ -1,4 +1,4 @@
-create table account
+create table ebank.account
 (
 id int NOT NULL AUTO_INCREMENT,
 type varchar(50) NOT NULL,

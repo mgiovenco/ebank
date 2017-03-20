@@ -5,15 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Helper class for connecting to AWS MySQL DB.
+ * Helper class for connecting to LOCAL MySQL DB.
  */
 public class DBHelper {
 
     public static Connection getconnection() {
 
-        String connectionUrl = "jdbc:mysql://ebank.c5qycvuwlvdp.us-east-1.rds.amazonaws.com:3306/ebank";
-        String dbUser = "mgiovenco";
-        String dbPwd = "mgiovenco";
+        //String connectionUrl = "jdbc:mysql://ebank.c5qycvuwlvdp.us-east-1.rds.amazonaws.com:3306/ebank";
+        String connectionUrl = "jdbc:mysql://localhost:3306/ebank?autoReconnect=true&useSSL=false";
+        String dbUser = "root";
+        String dbPwd = "";
         Connection conn = null;
 
         try {

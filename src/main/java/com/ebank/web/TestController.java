@@ -2,6 +2,7 @@ package com.ebank.web;
 
 import com.ebank.domain.Account;
 import com.ebank.domain.Customer;
+import com.google.common.base.Stopwatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/test")
@@ -91,5 +93,49 @@ public class TestController {
         System.out.println();
 
         System.out.println("###Testing Complete###");
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/loadtest", method = RequestMethod.POST)
+    public void loadTest() throws InterruptedException {
+        System.out.println("###Load Testing Start###");
+        System.out.println();
+
+        Stopwatch stopwatch = Stopwatch.createStarted();
+
+        int successes = 0;
+        boolean errorEncountered = false;
+        int delayInMillis = 1000;
+
+        for (int i = 0; i <= 1000; i++) {
+            System.out.println("Test Customer Creation (" + i + ")");
+            Customer customer1 = new Customer(0, "Bob", "Bobson", "888-777-6666", true);
+
+            try{
+                Customer customerResult = restTemplate.postForObject("http://localhost:8080/customers", customer1, Customer.class);
+                System.out.println("Result: " + customerResult);
+                successes++;
+                if(errorEncountered && successes >= 5) {
+                    delayInMillis = 1000;
+                    errorEncountered = false;
+                    System.out.println("Resetting delay due to successful attempts, new delayInMillis = " + delayInMillis);
+                }
+            } catch (Exception ex) {
+                System.out.println("Server exception encountered, sleeping...");
+                Thread.sleep(delayInMillis);
+                delayInMillis = delayInMillis * 2;
+                errorEncountered = true;
+                successes = 0;
+                System.out.println("Sleep over, reattempting.  New delayInMillis = " + delayInMillis);
+            }
+
+            System.out.println();
+        }
+
+        stopwatch.stop();
+
+        System.out.println("Total time: " + stopwatch.elapsed(TimeUnit.SECONDS) + " seconds");
+
+        System.out.println("###Load Testing Complete###");
     }
 }

@@ -12,11 +12,25 @@ This project is written in:
 -Spring Boot
 -Spring Web (for REST JAX-RS functionality)
 -Lombok (for making code more readable)
--Mysql (hosted on AWS)
+-Mysql (hosted locally)
 
-The AWS instance is a free tier database and, as a result, not the best hardware or network capacity.
+This project is utilizing a local mysql instance due to latency and performance issues.
 
-Note: For later assignments, I will upgrade this to have improved performance (when performance matters).  This is just to save $$$.
+##LOCAL MYSQL DB##
+
+A local mysql database is needed in order to run this project.
+
+Setup mysql with a root user with no password.  Note: Version this code base was tested with was 5.7.14.
+
+Once MySQL is installed, run the following:
+
+mysql.server start
+
+mysql -u root -p
+
+Note: No password needed
+
+Run all db scripts under ebank-data to create database and associated tables. 
 
 ##RUNNING PROJECT##
 To run project, execute the following command at the project root.  This will run the application in Spring Boot and spin up the endpoints.
@@ -25,14 +39,6 @@ gradle clean build && java -jar build/libs/ebank-0.0.1-SNAPSHOT.jar
 
 ##TESTING PROJECT##
 To test project, I created an endpoint that will run through various tests using RestTemplate:
-POST http://localhost:8080/test
+POST http://localhost:8080/test/loadtest
 
 Note: Navigate back to the terminal to see the results.
-
-##CONNECTING TO DB##
-For this project, since I'm hosting on the database on AWS, you don't need to create any local database.
-
-If you want to check the database directly, you can connect to it with the following commands:
-mysql -h ebank.c5qycvuwlvdp.us-east-1.rds.amazonaws.com -P 3306 -u mgiovenco -p mgiovenco
-use ebank;
-show tables;

@@ -61,9 +61,10 @@ public class CustomerDao {
     }
 
     public Customer createCustomer(Customer customer) throws Exception {
+        Connection conn = null;
         if (customer != null) {
             try {
-                Connection conn = DBHelper.getconnection();
+                conn = DBHelper.getconnection();
                 PreparedStatement ps = conn.prepareStatement(INSERT_CUSTOMER, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, customer.getFirstName());
                 ps.setString(2, customer.getLastName());
@@ -87,6 +88,11 @@ public class CustomerDao {
 
             } catch (SQLException e) {
                 System.out.println("SQLException: " + e);
+            } finally {
+                // Always be closing
+                try {
+                    conn.close();
+                } catch (Exception e) { /* ignored */ }
             }
         } else {
             throw new Exception("Cannot insert null customer object");
