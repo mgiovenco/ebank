@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: ebank-service
+
+server:
+  port: ${app.port}

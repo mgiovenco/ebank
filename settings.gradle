@@ -1,4 +1,0 @@
-rootProject.name = 'ebank'
-
-include 'ebank-service'
-include 'ebank-data'

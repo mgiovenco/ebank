@@ -35,10 +35,17 @@ Run all db scripts under ebank-data to create database and associated tables.
 ##RUNNING PROJECT##
 To run project, execute the following command at the project root.  This will run the application in Spring Boot and spin up the endpoints.
 
-gradle clean build && java -jar build/libs/ebank-0.0.1-SNAPSHOT.jar
+#Running Router
+gradle clean build && java -jar build/libs/ebank-service-router-0.0.1-SNAPSHOT.jar
+
+#Running Instances
+gradle clean build && java -jar -Dserver.port=9000 build/libs/ebank-0.0.1-SNAPSHOT.jar
+gradle clean build && java -jar -Dserver.port=9001 build/libs/ebank-0.0.1-SNAPSHOT.jar
+gradle clean build && java -jar -Dserver.port=9002 build/libs/ebank-0.0.1-SNAPSHOT.jar
 
 ##TESTING PROJECT##
 To test project, I created an endpoint that will run through various tests using RestTemplate:
 POST http://localhost:8080/test/loadtest
 
 Note: Navigate back to the terminal to see the results.
+
