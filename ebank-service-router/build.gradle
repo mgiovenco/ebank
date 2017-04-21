@@ -41,6 +41,8 @@ dependencies {
 
 	compile('org.springframework.cloud:spring-cloud-starter-ribbon')
 
+	compile("javax.validation:validation-api:1.+")
+
 	testCompile("junit:junit")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

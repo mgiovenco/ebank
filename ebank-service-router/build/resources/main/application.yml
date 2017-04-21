@@ -9,5 +9,5 @@ ebank-service:
   ribbon:
     eureka:
       enabled: false
-    listOfServers: localhost:9000
+    listOfServers: localhost:9000,localhost:9001,localhost:9002
     ServerListRefreshInterval: 15000

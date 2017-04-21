@@ -39,6 +39,8 @@ dependencies {
 
 	compile("mysql:mysql-connector-java:5.1.39")
 
+	compile("javax.validation:validation-api:1.+")
+
 	testCompile("junit:junit")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
